@@ -152,7 +152,7 @@ dependencies {
     implementation(libs.androbox.indicator)
 
     // Material Design 3 (required for themes)
-    implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.android.material:material:1.14.0")
 
     // Glide (for MmsReceiver)
     implementation("com.github.bumptech.glide:glide:4.16.0")
