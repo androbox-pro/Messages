@@ -30,7 +30,7 @@ ez-vcard = "0.12.2"
 # ===== আপনার নিজের রিপোজিটরি (androbox-pro) =====
 androbox-commons = "6.1.6"
 androbox-mmslib = "1.0.0"
-androbox-indicator = "d0b8a7d2ee"
+androbox-indicator = "1.0.0"
 
 [libraries]
 #AndroidX
