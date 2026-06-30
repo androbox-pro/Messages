@@ -176,7 +176,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     // Gson (required for Room Converters)
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.14.0")
 
     // Detekt
     detektPlugins(libs.compose.detekt)
