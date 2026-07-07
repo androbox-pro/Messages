@@ -1,0 +1,62 @@
+name: Android 16 Emulator Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:   # ম্যানুয়ালি রান করতে
+
+jobs:
+  test:
+    runs-on: macos-13   # ← Intel-based macOS (নিশ্চিতভাবে x86_64 সাপোর্ট করে)
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Cache Android SDK
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.android/sdk
+          ~/.android/avd
+        key: android-sdk-${{ runner.os }}-api-36
+        restore-keys: |
+          android-sdk-${{ runner.os }}-
+
+    - name: Build APK
+      run: |
+        chmod +x gradlew
+        ./gradlew assembleDebug
+
+    - name: Run Android Emulator (API 36 - Android 16)
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 36
+        arch: x86_64
+        target: google_apis
+        profile: pixel_6
+        emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+        emulator-boot-timeout: 600
+        script: |
+          # অ্যাপ ইনস্টল করুন
+          adb install app/build/outputs/apk/debug/app-debug.apk
+          
+          # অ্যাপ ওপেন করুন (SplashActivity থেকে শুরু)
+          adb shell am start -n org.fossify.messages/.activities.SplashActivity
+          
+          # অ্যাপ ওপেন থাকতে ১০ সেকেন্ড অপেক্ষা
+          sleep 10
+          
+          # ক্র্যাশ চেক করুন (logcat থেকে FATAL খুঁজুন)
+          adb logcat -d | grep -i "androidruntime\|fatal\|exception"
