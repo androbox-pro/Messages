@@ -170,7 +170,7 @@ dependencies {
     detektPlugins(libs.compose.detekt)
 
     // ===== পুরাতন ফাইল থেকে অতিরিক্ত ডিপেন্ডেন্সি (প্রয়োজন হলে) =====
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:okhttp:5.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
     val cameraxVersion = "1.5.0-alpha02"
